@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>J223 四期推廣 THI 報帳</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #f5f6f8;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans TC",
+        Arial,
+        sans-serif;
+      color: #252525;
+    }
+
+    .page {
+      max-width: 980px;
+      margin: auto;
+      padding: 24px 16px 60px;
+    }
+
+    h1 {
+      margin: 0 0 24px;
+      font-size: 28px;
+    }
+
+    h2 {
+      margin: 0 0 18px;
+      font-size: 21px;
+    }
+
+    h3 {
+      margin: 28px 0 12px;
+      font-size: 17px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow:
+        0 2px 12px
+        rgba(0, 0, 0, 0.06);
+    }
+
+
+    /* =========================
+       人員選擇
+    ========================= */
+
+    .people {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .person-btn {
+      border: 1px solid #d5d9df;
+      background: white;
+      padding: 10px 18px;
+      border-radius: 24px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: 0.15s;
+    }
+
+    .person-btn:hover {
+      background: #f3f4f6;
+    }
+
+    .person-btn.active {
+      background: #222;
+      color: white;
+      border-color: #222;
+    }
+
+
+    /* =========================
+       功能按鈕
+    ========================= */
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .action-btn {
+      border: 0;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .action-btn:hover:not(:disabled) {
+      opacity: 0.9;
+    }
+
+    .report-btn {
+      background: #2367d1;
+      color: white;
+    }
+
+    .query-btn {
+      background: #202124;
+      color: white;
+    }
+
+    .action-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+
+    /* =========================
+       查詢結果總覽
+    ========================= */
+
+    .person-title {
+      font-size: 16px;
+      color: #666;
+    }
+
+    .grand-total {
+      font-size: 42px;
+      font-weight: 800;
+      margin: 8px 0 20px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .summary-box {
+      background: #f6f7f9;
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .summary-label {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .summary-money {
+      font-size: 22px;
+      font-weight: 700;
+      margin-top: 5px;
+    }
+
+
+    /* =========================
+       表格
+    ========================= */
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 560px;
+    }
+
+    th {
+      text-align: left;
+      font-size: 13px;
+      color: #666;
+      border-bottom: 2px solid #e9eaec;
+      padding: 11px 9px;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 11px 9px;
+      border-bottom: 1px solid #eceef0;
+      vertical-align: top;
+    }
+
+    .money {
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .subtotal-row {
+      background: #f6f7f9;
+      font-weight: 700;
+    }
+
+    .total-row {
+      background: #eceff3;
+      font-weight: 800;
+    }
+
+
+    /* =========================
+       狀態
+    ========================= */
+
+    .hidden {
+      display: none !important;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 30px;
+      color: #666;
+    }
+
+    .error {
+      color: #b3261e;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+
+    .no-data {
+      color: #777;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+
+    /* =========================
+       手機版
+    ========================= */
+
+    @media (max-width: 600px) {
+
+      .page {
+        padding: 16px 10px 40px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 23px;
+      }
+
+      .grand-total {
+        font-size: 34px;
+      }
+
+      .person-btn {
+        flex: 1 1 calc(33.333% - 10px);
+        text-align: center;
+        padding: 10px 8px;
+      }
+
+      .actions {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+<div class="page">
+
+
+  <h1>
+    J223 四期推廣 THI 報帳
+  </h1>
+
+
+  <!-- =========================
+       選擇同仁
+  ========================== -->
+
+  <div class="card">
+
+    <h2>選擇同仁</h2>
+
+
+    <div class="people">
+
+      <button
+        class="person-btn"
+        data-name="翊筑"
+      >
+        翊筑
+      </button>
+
+      <button
+        class="person-btn"
+        data-name="宜莉"
+      >
+        宜莉
+      </button>
+
+      <button
+        class="person-btn"
+        data-name="育文"
+      >
+        育文
+      </button>
+
+      <button
+        class="person-btn"
+        data-name="品瑄"
+      >
+        品瑄
+      </button>
+
+      <button
+        class="person-btn"
+        data-name="愉珊"
+      >
+        愉珊
+      </button>
+
+      <button
+        class="person-btn"
+        data-name="紫嘉"
+      >
+        紫嘉
+      </button>
+
+    </div>
+
+
+    <div class="actions">
+
+      <button
+        id="reportBtn"
+        class="action-btn report-btn"
+        disabled
+      >
+        我要報帳
+      </button>
+
+
+      <button
+        id="queryBtn"
+        class="action-btn query-btn"
+        disabled
+      >
+        我要查詢
+      </button>
+
+    </div>
+
+
+    <div
+      id="topError"
+      class="error"
+    ></div>
+
+  </div>
+
+
+
+  <!-- =========================
+       Loading
+  ========================== -->
+
+  <div
+    id="loading"
+    class="card loading hidden"
+  >
+    資料讀取中……
+  </div>
+
+
+
+  <!-- =========================
+       查詢結果
+  ========================== -->
+
+  <div
+    id="result"
+    class="hidden"
+  >
+
+
+    <!-- 總覽 -->
+
+    <div class="card">
+
+      <div
+        id="personTitle"
+        class="person-title"
+      ></div>
+
+      <div
+        id="grandTotal"
+        class="grand-total"
+      >
+        $0
+      </div>
+
+
+      <div class="summary-grid">
+
+        <div class="summary-box">
+
+          <div class="summary-label">
+            請款
+          </div>
+
+          <div
+            id="claimTotalTop"
+            class="summary-money"
+          >
+            $0
+          </div>
+
+        </div>
+
+
+        <div class="summary-box">
+
+          <div class="summary-label">
+            出差費
+          </div>
+
+          <div
+            id="travelTotalTop"
+            class="summary-money"
+          >
+            $0
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         費用分類
+    ========================== -->
+
+    <div class="card">
+
+      <h2>費用分類</h2>
+
+
+      <h3>請款</h3>
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>費用分類</th>
+              <th class="money">金額</th>
+            </tr>
+          </thead>
+
+          <tbody id="claimSummaryTable">
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+
+      <h3>出差費</h3>
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>費用分類</th>
+              <th class="money">金額</th>
+            </tr>
+          </thead>
+
+          <tbody id="travelSummaryTable">
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         請款明細
+    ========================== -->
+
+    <div class="card">
+
+      <h2>請款明細</h2>
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>摘要重點</th>
+              <th>日期</th>
+              <th>摘要說明</th>
+              <th class="money">數量</th>
+              <th class="money">單價</th>
+              <th class="money">金額</th>
+            </tr>
+          </thead>
+
+          <tbody id="claimDetailTable">
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         出差費明細
+    ========================== -->
+
+    <div class="card">
+
+      <h2>出差費明細</h2>
+
+
+      <h3>交通費</h3>
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>交通費項目</th>
+              <th>日期</th>
+              <th class="money">金額</th>
+            </tr>
+          </thead>
+
+          <tbody id="transportTable">
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+
+      <h3>膳食費</h3>
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th class="money">金額</th>
+            </tr>
+          </thead>
+
+          <tbody id="mealTable">
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+</div>
+
+
+
+<script>
+
+/* ==================================================
+   Apps Script API
+================================================== */
+
+const API_URL =
+  'https://script.google.com/macros/s/AKfycbwhraePH7uhX9-ictyBJopLwROQfUwGNjgFNu9CMcTgAnAXrM7cugxkiweiD8J9oRw-/exec';
+
+
+
+/* ==================================================
+   Google Form
+================================================== */
+
+const FORM_URL =
+  'https://docs.google.com/forms/d/e/1FAIpQLSeKTqrh-MGau75CZD2nvh5_JifVz2cSDYBMq-uaw1HQ5LWAnw/viewform';
+
+
+/*
+  Google Form
+  「誰」的欄位 ID
+*/
+const PERSON_ENTRY_ID =
+  'entry.1521537933';
+
+
+
+let selectedPerson = '';
+
+
+
+/* ==================================================
+   選擇同仁
+================================================== */
+
+document
+  .querySelectorAll('.person-btn')
+  .forEach(button => {
+
+    button.addEventListener(
+      'click',
+      function () {
+
+
+        document
+          .querySelectorAll('.person-btn')
+          .forEach(btn => {
+
+            btn.classList.remove(
+              'active'
+            );
+
+          });
+
+
+        this.classList.add(
+          'active'
+        );
+
+
+        selectedPerson =
+          this.dataset.name;
+
+
+        document
+          .getElementById('reportBtn')
+          .disabled = false;
+
+
+        document
+          .getElementById('queryBtn')
+          .disabled = false;
+
+
+        document
+          .getElementById('topError')
+          .textContent = '';
+
+      }
+    );
+
+  });
+
+
+
+/* ==================================================
+   我要報帳
+
+   另開 Google Form
+   並自動預填同仁姓名
+================================================== */
+
+document
+  .getElementById('reportBtn')
+  .addEventListener(
+    'click',
+    function () {
+
+
+      if (!selectedPerson) {
+
+        showTopError(
+          '請先選擇同仁'
+        );
+
+        return;
+
+      }
+
+
+      const prefilledUrl =
+        FORM_URL
+        + '?usp=pp_url'
+        + '&'
+        + PERSON_ENTRY_ID
+        + '='
+        + encodeURIComponent(
+            selectedPerson
+          );
+
+
+      /*
+        另開新分頁
+      */
+      window.open(
+        prefilledUrl,
+        '_blank'
+      );
+
+    }
+  );
+
+
+
+/* ==================================================
+   我要查詢
+================================================== */
+
+document
+  .getElementById('queryBtn')
+  .addEventListener(
+    'click',
+    function () {
+
+
+      if (!selectedPerson) {
+
+        showTopError(
+          '請先選擇同仁'
+        );
+
+        return;
+
+      }
+
+
+      queryExpense(
+        selectedPerson
+      );
+
+    }
+  );
+
+
+
+/* ==================================================
+   呼叫 Apps Script
+
+   使用 JSONP
+   避免 GitHub Pages → Apps Script
+   的 CORS 問題
+================================================== */
+
+function queryExpense(name) {
+
+
+  showLoading();
+
+
+  const callbackName =
+    'expenseCallback_'
+    + Date.now();
+
+
+  const script =
+    document.createElement(
+      'script'
+    );
+
+
+  const timeout =
+    setTimeout(
+      function () {
+
+        cleanup();
+
+        showError(
+          '資料讀取逾時，請稍後再試'
+        );
+
+      },
+      15000
+    );
+
+
+  window[callbackName] =
+    function (data) {
+
+
+      clearTimeout(
+        timeout
+      );
+
+
+      cleanup();
+
+
+      if (
+        !data ||
+        data.success !== true
+      ) {
+
+        showError(
+          data && data.message
+            ? data.message
+            : '查詢失敗'
+        );
+
+        return;
+
+      }
+
+
+      renderResult(data);
+
+    };
+
+
+  function cleanup() {
+
+    if (script.parentNode) {
+
+      script.parentNode
+        .removeChild(script);
+
+    }
+
+
+    delete window[
+      callbackName
+    ];
+
+  }
+
+
+  script.src =
+    API_URL
+    + '?action=query'
+    + '&name='
+    + encodeURIComponent(name)
+    + '&callback='
+    + encodeURIComponent(
+        callbackName
+      );
+
+
+  script.onerror =
+    function () {
+
+
+      clearTimeout(
+        timeout
+      );
+
+
+      cleanup();
+
+
+      showError(
+        '無法連線至報帳資料'
+      );
+
+    };
+
+
+  document.body
+    .appendChild(script);
+
+}
+
+
+
+/* ==================================================
+   顯示查詢結果
+================================================== */
+
+function renderResult(data) {
+
+
+  document
+    .getElementById('loading')
+    .classList.add('hidden');
+
+
+  document
+    .getElementById('result')
+    .classList.remove('hidden');
+
+
+
+  /* --------------------------
+     總覽
+  -------------------------- */
+
+  document
+    .getElementById('personTitle')
+    .textContent =
+      data.person
+      + '｜本次活動';
+
+
+  document
+    .getElementById('grandTotal')
+    .textContent =
+      '$'
+      + money(
+          data.grandTotal
+        );
+
+
+  document
+    .getElementById('claimTotalTop')
+    .textContent =
+      '$'
+      + money(
+          data.summary.claimTotal
+        );
+
+
+  document
+    .getElementById('travelTotalTop')
+    .textContent =
+      '$'
+      + money(
+          data.summary.travelTotal
+        );
+
+
+  renderClaimSummary(data);
+
+  renderTravelSummary(data);
+
+  renderClaimDetail(data);
+
+  renderTransport(data);
+
+  renderMeal(data);
+
+
+  document
+    .getElementById('result')
+    .scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+
+}
+
+
+
+/* ==================================================
+   費用分類：請款
+================================================== */
+
+function renderClaimSummary(data) {
+
+
+  let html = '';
+
+
+  data.claim.groups
+    .forEach(group => {
+
+
+      html += `
+
+        <tr>
+
+          <td>
+            ${escapeHtml(
+              group.category
+            )}
+          </td>
+
+          <td class="money">
+            $${money(
+              group.subtotal
+            )}
+          </td>
+
+        </tr>
+
+      `;
+
+    });
+
+
+  html += `
+
+    <tr class="total-row">
+
+      <td>
+        請款合計
+      </td>
+
+      <td class="money">
+        $${money(
+          data.claim.total
+        )}
+      </td>
+
+    </tr>
+
+  `;
+
+
+  document
+    .getElementById(
+      'claimSummaryTable'
+    )
+    .innerHTML =
+      html;
+
+}
+
+
+
+/* ==================================================
+   費用分類：出差費
+================================================== */
+
+function renderTravelSummary(data) {
+
+
+  document
+    .getElementById(
+      'travelSummaryTable'
+    )
+    .innerHTML = `
+
+      <tr>
+
+        <td>
+          交通費
+        </td>
+
+        <td class="money">
+          $${money(
+            data.travel.transport.total
+          )}
+        </td>
+
+      </tr>
+
+
+      <tr>
+
+        <td>
+          膳食費
+        </td>
+
+        <td class="money">
+          $${money(
+            data.travel.meal.total
+          )}
+        </td>
+
+      </tr>
+
+
+      <tr class="total-row">
+
+        <td>
+          出差費合計
+        </td>
+
+        <td class="money">
+          $${money(
+            data.travel.total
+          )}
+        </td>
+
+      </tr>
+
+    `;
+
+}
+
+
+
+/* ==================================================
+   請款明細
+================================================== */
+
+function renderClaimDetail(data) {
+
+
+  let html = '';
+
+  let hasData = false;
+
+
+  data.claim.groups
+    .forEach(group => {
+
+
+      if (
+        !group.items ||
+        group.items.length === 0
+      ) {
+
+        return;
+
+      }
+
+
+      hasData = true;
+
+
+      group.items
+        .forEach(item => {
+
+
+          html += `
+
+            <tr>
+
+              <td>
+                ${escapeHtml(
+                  group.category
+                )}
+              </td>
+
+              <td>
+                ${escapeHtml(
+                  item.date
+                )}
+              </td>
+
+              <td>
+                ${escapeHtml(
+                  item.description
+                )}
+              </td>
+
+              <td class="money">
+                ${money(
+                  item.quantity
+                )}
+              </td>
+
+              <td class="money">
+                $${money(
+                  item.unitPrice
+                )}
+              </td>
+
+              <td class="money">
+                $${money(
+                  item.amount
+                )}
+              </td>
+
+            </tr>
+
+          `;
+
+        });
+
+
+      html += `
+
+        <tr class="subtotal-row">
+
+          <td>
+            ${escapeHtml(
+              group.category
+            )}
+            小計
+          </td>
+
+          <td></td>
+
+          <td></td>
+
+          <td></td>
+
+          <td></td>
+
+          <td class="money">
+            $${money(
+              group.subtotal
+            )}
+          </td>
+
+        </tr>
+
+      `;
+
+    });
+
+
+
+  if (!hasData) {
+
+    html = `
+
+      <tr>
+
+        <td
+          colspan="6"
+          class="no-data"
+        >
+          尚無請款資料
+        </td>
+
+      </tr>
+
+    `;
+
+  }
+
+  else {
+
+    html += `
+
+      <tr class="total-row">
+
+        <td>
+          請款合計
+        </td>
+
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+
+        <td class="money">
+          $${money(
+            data.claim.total
+          )}
+        </td>
+
+      </tr>
+
+    `;
+
+  }
+
+
+  document
+    .getElementById(
+      'claimDetailTable'
+    )
+    .innerHTML =
+      html;
+
+}
+
+
+
+/* ==================================================
+   交通費明細
+================================================== */
+
+function renderTransport(data) {
+
+
+  let html = '';
+
+  let hasData = false;
+
+
+  data.travel.transport.groups
+    .forEach(group => {
+
+
+      if (
+        !group.items ||
+        group.items.length === 0
+      ) {
+
+        return;
+
+      }
+
+
+      hasData = true;
+
+
+      group.items
+        .forEach(item => {
+
+
+          html += `
+
+            <tr>
+
+              <td>
+                ${escapeHtml(
+                  group.category
+                )}
+              </td>
+
+              <td>
+                ${escapeHtml(
+                  item.date
+                )}
+              </td>
+
+              <td class="money">
+                $${money(
+                  item.amount
+                )}
+              </td>
+
+            </tr>
+
+          `;
+
+        });
+
+
+      html += `
+
+        <tr class="subtotal-row">
+
+          <td>
+            ${escapeHtml(
+              group.category
+            )}
+            小計
+          </td>
+
+          <td></td>
+
+          <td class="money">
+            $${money(
+              group.subtotal
+            )}
+          </td>
+
+        </tr>
+
+      `;
+
+    });
+
+
+
+  if (!hasData) {
+
+    html = `
+
+      <tr>
+
+        <td
+          colspan="3"
+          class="no-data"
+        >
+          尚無交通費資料
+        </td>
+
+      </tr>
+
+    `;
+
+  }
+
+  else {
+
+    html += `
+
+      <tr class="total-row">
+
+        <td>
+          交通費合計
+        </td>
+
+        <td></td>
+
+        <td class="money">
+          $${money(
+            data.travel.transport.total
+          )}
+        </td>
+
+      </tr>
+
+    `;
+
+  }
+
+
+  document
+    .getElementById(
+      'transportTable'
+    )
+    .innerHTML =
+      html;
+
+}
+
+
+
+/* ==================================================
+   膳食費明細
+================================================== */
+
+function renderMeal(data) {
+
+
+  let html = '';
+
+
+  if (
+    !data.travel.meal.items ||
+    data.travel.meal.items.length === 0
+  ) {
+
+
+    html = `
+
+      <tr>
+
+        <td
+          colspan="2"
+          class="no-data"
+        >
+          尚無膳食費資料
+        </td>
+
+      </tr>
+
+    `;
+
+  }
+
+  else {
+
+
+    data.travel.meal.items
+      .forEach(item => {
+
+
+        html += `
+
+          <tr>
+
+            <td>
+              ${escapeHtml(
+                item.date
+              )}
+            </td>
+
+            <td class="money">
+              $${money(
+                item.amount
+              )}
+            </td>
+
+          </tr>
+
+        `;
+
+      });
+
+
+    html += `
+
+      <tr class="total-row">
+
+        <td>
+          膳食費合計
+        </td>
+
+        <td class="money">
+          $${money(
+            data.travel.meal.total
+          )}
+        </td>
+
+      </tr>
+
+    `;
+
+  }
+
+
+  document
+    .getElementById(
+      'mealTable'
+    )
+    .innerHTML =
+      html;
+
+}
+
+
+
+/* ==================================================
+   Loading
+================================================== */
+
+function showLoading() {
+
+
+  document
+    .getElementById('result')
+    .classList.add('hidden');
+
+
+  document
+    .getElementById('loading')
+    .classList.remove('hidden');
+
+
+  document
+    .getElementById('topError')
+    .textContent = '';
+
+}
+
+
+
+/* ==================================================
+   Error
+================================================== */
+
+function showError(message) {
+
+
+  document
+    .getElementById('loading')
+    .classList.add('hidden');
+
+
+  document
+    .getElementById('result')
+    .classList.add('hidden');
+
+
+  showTopError(message);
+
+}
+
+
+
+function showTopError(message) {
+
+  document
+    .getElementById('topError')
+    .textContent =
+      message;
+
+}
+
+
+
+/* ==================================================
+   金額格式
+================================================== */
+
+function money(value) {
+
+  return Number(
+    value || 0
+  ).toLocaleString(
+    'zh-TW'
+  );
+
+}
+
+
+
+/* ==================================================
+   HTML 安全處理
+================================================== */
+
+function escapeHtml(value) {
+
+  return String(
+    value || ''
+  )
+
+    .replace(
+      /&/g,
+      '&amp;'
+    )
+
+    .replace(
+      /</g,
+      '&lt;'
+    )
+
+    .replace(
+      />/g,
+      '&gt;'
+    )
+
+    .replace(
+      /"/g,
+      '&quot;'
+    )
+
+    .replace(
+      /'/g,
+      '&#039;'
+    );
+
+}
+
+</script>
+
+</body>
+
+</html>
