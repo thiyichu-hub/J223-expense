@@ -264,6 +264,14 @@
         font-size: 23px;
       }
 
+      h2 {
+        font-size: 20px;
+      }
+
+      h3 {
+        font-size: 16px;
+      }
+
       .grand-total {
         font-size: 34px;
       }
@@ -280,6 +288,102 @@
 
       .summary-grid {
         grid-template-columns: 1fr 1fr;
+      }
+
+
+      /* 手機表格不左右滑 */
+
+      .table-wrap {
+        overflow-x: visible;
+      }
+
+      table {
+        width: 100%;
+        min-width: 0;
+        table-layout: fixed;
+      }
+
+      th,
+      td {
+        padding: 9px 5px;
+        font-size: 13px;
+        overflow-wrap: anywhere;
+      }
+
+
+      /* =========================
+         費用分類表
+      ========================= */
+
+      #claimSummaryTable td:first-child,
+      #travelSummaryTable td:first-child {
+        width: 65%;
+      }
+
+      #claimSummaryTable td:last-child,
+      #travelSummaryTable td:last-child {
+        width: 35%;
+      }
+
+
+      /* =========================
+         請款明細 4 欄
+      ========================= */
+
+      #claimDetailTable td:nth-child(1) {
+        width: 24%;
+      }
+
+      #claimDetailTable td:nth-child(2) {
+        width: 24%;
+        white-space: nowrap;
+      }
+
+      #claimDetailTable td:nth-child(3) {
+        width: 32%;
+      }
+
+      #claimDetailTable td:nth-child(4) {
+        width: 20%;
+        white-space: nowrap;
+      }
+
+
+      /* =========================
+         交通費 3 欄
+      ========================= */
+
+      #transportTable td:nth-child(1) {
+        width: 36%;
+      }
+
+      #transportTable td:nth-child(2) {
+        width: 36%;
+        white-space: nowrap;
+      }
+
+      #transportTable td:nth-child(3) {
+        width: 28%;
+        white-space: nowrap;
+      }
+
+
+      /* =========================
+         膳食費 3 欄
+      ========================= */
+
+      #mealTable td:nth-child(1) {
+        width: 30%;
+        white-space: nowrap;
+      }
+
+      #mealTable td:nth-child(2) {
+        width: 43%;
+      }
+
+      #mealTable td:nth-child(3) {
+        width: 27%;
+        white-space: nowrap;
       }
 
     }
@@ -533,11 +637,9 @@
 
           <thead>
             <tr>
-              <th>摘要重點</th>
+              <th>分類</th>
               <th>日期</th>
-              <th>摘要說明</th>
-              <th class="money">數量</th>
-              <th class="money">單價</th>
+              <th>說明</th>
               <th class="money">金額</th>
             </tr>
           </thead>
@@ -594,6 +696,7 @@
           <thead>
             <tr>
               <th>日期</th>
+              <th>膳費內容</th>
               <th class="money">金額</th>
             </tr>
           </thead>
@@ -634,10 +737,6 @@ const FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLSeKTqrh-MGau75CZD2nvh5_JifVz2cSDYBMq-uaw1HQ5LWAnw/viewform';
 
 
-/*
-  Google Form
-  「誰」的欄位 ID
-*/
 const PERSON_ENTRY_ID =
   'entry.1521537933';
 
@@ -658,7 +757,6 @@ document
     button.addEventListener(
       'click',
       function () {
-
 
         document
           .querySelectorAll('.person-btn')
@@ -703,9 +801,6 @@ document
 
 /* ==================================================
    我要報帳
-
-   另開 Google Form
-   並自動預填同仁姓名
 ================================================== */
 
 document
@@ -713,7 +808,6 @@ document
   .addEventListener(
     'click',
     function () {
-
 
       if (!selectedPerson) {
 
@@ -737,9 +831,6 @@ document
           );
 
 
-      /*
-        另開新分頁
-      */
       window.open(
         prefilledUrl,
         '_blank'
@@ -759,7 +850,6 @@ document
   .addEventListener(
     'click',
     function () {
-
 
       if (!selectedPerson) {
 
@@ -783,14 +873,9 @@ document
 
 /* ==================================================
    呼叫 Apps Script
-
-   使用 JSONP
-   避免 GitHub Pages → Apps Script
-   的 CORS 問題
 ================================================== */
 
 function queryExpense(name) {
-
 
   showLoading();
 
@@ -823,7 +908,6 @@ function queryExpense(name) {
 
   window[callbackName] =
     function (data) {
-
 
       clearTimeout(
         timeout
@@ -885,7 +969,6 @@ function queryExpense(name) {
   script.onerror =
     function () {
 
-
       clearTimeout(
         timeout
       );
@@ -914,7 +997,6 @@ function queryExpense(name) {
 
 function renderResult(data) {
 
-
   document
     .getElementById('loading')
     .classList.add('hidden');
@@ -924,11 +1006,6 @@ function renderResult(data) {
     .getElementById('result')
     .classList.remove('hidden');
 
-
-
-  /* --------------------------
-     總覽
-  -------------------------- */
 
   document
     .getElementById('personTitle')
@@ -992,13 +1069,11 @@ function renderResult(data) {
 
 function renderClaimSummary(data) {
 
-
   let html = '';
 
 
   data.claim.groups
     .forEach(group => {
-
 
       html += `
 
@@ -1058,7 +1133,6 @@ function renderClaimSummary(data) {
 ================================================== */
 
 function renderTravelSummary(data) {
-
 
   document
     .getElementById(
@@ -1122,23 +1196,18 @@ function renderTravelSummary(data) {
 
 function renderClaimDetail(data) {
 
-
   let html = '';
-
   let hasData = false;
 
 
   data.claim.groups
     .forEach(group => {
 
-
       if (
         !group.items ||
         group.items.length === 0
       ) {
-
         return;
-
       }
 
 
@@ -1147,7 +1216,6 @@ function renderClaimDetail(data) {
 
       group.items
         .forEach(item => {
-
 
           html += `
 
@@ -1172,18 +1240,6 @@ function renderClaimDetail(data) {
               </td>
 
               <td class="money">
-                ${money(
-                  item.quantity
-                )}
-              </td>
-
-              <td class="money">
-                $${money(
-                  item.unitPrice
-                )}
-              </td>
-
-              <td class="money">
                 $${money(
                   item.amount
                 )}
@@ -1203,13 +1259,8 @@ function renderClaimDetail(data) {
           <td>
             ${escapeHtml(
               group.category
-            )}
-            小計
+            )} 小計
           </td>
-
-          <td></td>
-
-          <td></td>
 
           <td></td>
 
@@ -1228,7 +1279,6 @@ function renderClaimDetail(data) {
     });
 
 
-
   if (!hasData) {
 
     html = `
@@ -1236,7 +1286,7 @@ function renderClaimDetail(data) {
       <tr>
 
         <td
-          colspan="6"
+          colspan="4"
           class="no-data"
         >
           尚無請款資料
@@ -1259,8 +1309,7 @@ function renderClaimDetail(data) {
         </td>
 
         <td></td>
-        <td></td>
-        <td></td>
+
         <td></td>
 
         <td class="money">
@@ -1293,23 +1342,18 @@ function renderClaimDetail(data) {
 
 function renderTransport(data) {
 
-
   let html = '';
-
   let hasData = false;
 
 
   data.travel.transport.groups
     .forEach(group => {
 
-
       if (
         !group.items ||
         group.items.length === 0
       ) {
-
         return;
-
       }
 
 
@@ -1318,7 +1362,6 @@ function renderTransport(data) {
 
       group.items
         .forEach(item => {
-
 
           html += `
 
@@ -1356,8 +1399,7 @@ function renderTransport(data) {
           <td>
             ${escapeHtml(
               group.category
-            )}
-            小計
+            )} 小計
           </td>
 
           <td></td>
@@ -1373,7 +1415,6 @@ function renderTransport(data) {
       `;
 
     });
-
 
 
   if (!hasData) {
@@ -1437,7 +1478,6 @@ function renderTransport(data) {
 
 function renderMeal(data) {
 
-
   let html = '';
 
 
@@ -1446,13 +1486,12 @@ function renderMeal(data) {
     data.travel.meal.items.length === 0
   ) {
 
-
     html = `
 
       <tr>
 
         <td
-          colspan="2"
+          colspan="3"
           class="no-data"
         >
           尚無膳食費資料
@@ -1466,10 +1505,8 @@ function renderMeal(data) {
 
   else {
 
-
     data.travel.meal.items
       .forEach(item => {
-
 
         html += `
 
@@ -1478,6 +1515,12 @@ function renderMeal(data) {
             <td>
               ${escapeHtml(
                 item.date
+              )}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                item.content || '-'
               )}
             </td>
 
@@ -1501,6 +1544,8 @@ function renderMeal(data) {
         <td>
           膳食費合計
         </td>
+
+        <td></td>
 
         <td class="money">
           $${money(
@@ -1532,7 +1577,6 @@ function renderMeal(data) {
 
 function showLoading() {
 
-
   document
     .getElementById('result')
     .classList.add('hidden');
@@ -1556,7 +1600,6 @@ function showLoading() {
 ================================================== */
 
 function showError(message) {
-
 
   document
     .getElementById('loading')
@@ -1641,5 +1684,4 @@ function escapeHtml(value) {
 </script>
 
 </body>
-
 </html>
