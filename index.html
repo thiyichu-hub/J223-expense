@@ -1,7 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="zh-Hant">
 
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -9,7 +11,10 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>J223 四期推廣 THI 報帳</title>
+  <title>
+    J223 四期推廣 THI 報帳
+  </title>
+
 
   <style>
 
@@ -17,9 +22,13 @@
       box-sizing: border-box;
     }
 
+
     body {
+
       margin: 0;
+
       background: #f5f6f8;
+
       font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -27,372 +36,717 @@
         "Noto Sans TC",
         Arial,
         sans-serif;
+
       color: #252525;
+
     }
+
 
     .page {
+
       max-width: 980px;
+
       margin: auto;
+
       padding: 24px 16px 60px;
+
     }
+
 
     h1 {
-      margin: 0 0 24px;
+
+      margin:
+        0 0 24px;
+
       font-size: 28px;
+
     }
+
 
     h2 {
-      margin: 0 0 18px;
+
+      margin:
+        0 0 18px;
+
       font-size: 21px;
+
     }
+
 
     h3 {
-      margin: 28px 0 12px;
+
+      margin:
+        28px 0 12px;
+
       font-size: 17px;
+
     }
+
 
     .card {
+
       background: white;
+
       border-radius: 16px;
+
       padding: 22px;
+
       margin-bottom: 18px;
+
       box-shadow:
         0 2px 12px
-        rgba(0, 0, 0, 0.06);
+        rgba(0,0,0,.06);
+
     }
 
 
-    /* =========================
-       人員選擇
-    ========================= */
+    /* ========================
+       人員
+    ======================== */
 
     .people {
+
       display: flex;
+
       flex-wrap: wrap;
+
       gap: 10px;
+
     }
+
 
     .person-btn {
-      border: 1px solid #d5d9df;
+
+      border:
+        1px solid #d5d9df;
+
       background: white;
-      padding: 10px 18px;
+
+      padding:
+        10px 18px;
+
       border-radius: 24px;
+
       cursor: pointer;
+
       font-size: 15px;
-      transition: 0.15s;
+
     }
 
-    .person-btn:hover {
-      background: #f3f4f6;
-    }
 
     .person-btn.active {
+
       background: #222;
+
       color: white;
+
       border-color: #222;
+
     }
 
 
-    /* =========================
-       功能按鈕
-    ========================= */
+    /* ========================
+       其他人員
+    ======================== */
+
+    .other-box {
+
+      margin-top: 16px;
+
+    }
+
+
+    .other-box label {
+
+      display: block;
+
+      font-size: 14px;
+
+      font-weight: 700;
+
+      margin-bottom: 7px;
+
+    }
+
+
+    .other-box input {
+
+      width: 100%;
+
+      border:
+        1px solid #d5d9df;
+
+      border-radius: 9px;
+
+      padding:
+        12px 13px;
+
+      font-size: 16px;
+
+    }
+
+
+    /* ========================
+       按鈕
+    ======================== */
 
     .actions {
+
       display: grid;
-      grid-template-columns: 1fr 1fr;
+
+      grid-template-columns:
+        1fr 1fr;
+
       gap: 12px;
+
       margin-top: 20px;
+
     }
+
 
     .action-btn {
+
       border: 0;
+
       border-radius: 10px;
+
       padding: 14px;
+
       font-size: 16px;
+
       font-weight: 700;
+
       cursor: pointer;
-      transition: 0.15s;
+
     }
 
-    .action-btn:hover:not(:disabled) {
-      opacity: 0.9;
-    }
-
-    .report-btn {
-      background: #2367d1;
-      color: white;
-    }
-
-    .query-btn {
-      background: #202124;
-      color: white;
-    }
 
     .action-btn:disabled {
-      opacity: 0.35;
+
+      opacity: .35;
+
       cursor: not-allowed;
+
     }
 
 
-    /* =========================
-       查詢結果總覽
-    ========================= */
+    .report-btn {
+
+      background: #2367d1;
+
+      color: white;
+
+    }
+
+
+    .query-btn {
+
+      background: #202124;
+
+      color: white;
+
+    }
+
+
+    .all-query-btn {
+
+      width: 100%;
+
+      margin-top: 12px;
+
+      background: #e9edf3;
+
+      color: #202124;
+
+    }
+
+
+    /* ========================
+       總覽
+    ======================== */
 
     .person-title {
+
       font-size: 16px;
+
       color: #666;
+
     }
+
 
     .grand-total {
+
       font-size: 42px;
+
       font-weight: 800;
-      margin: 8px 0 20px;
+
+      margin:
+        8px 0 20px;
+
     }
+
 
     .summary-grid {
+
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+
+      grid-template-columns:
+        repeat(2, 1fr);
+
       gap: 12px;
+
     }
+
 
     .summary-box {
+
       background: #f6f7f9;
+
       border-radius: 12px;
+
       padding: 16px;
+
     }
+
 
     .summary-label {
+
       color: #666;
+
       font-size: 14px;
+
     }
+
 
     .summary-money {
+
       font-size: 22px;
+
       font-weight: 700;
+
       margin-top: 5px;
+
     }
 
 
-    /* =========================
+    /* ========================
        表格
-    ========================= */
+    ======================== */
 
     .table-wrap {
+
       width: 100%;
+
       overflow-x: auto;
+
     }
+
 
     table {
+
       width: 100%;
+
       border-collapse: collapse;
+
       min-width: 560px;
+
     }
+
 
     th {
+
       text-align: left;
-      font-size: 13px;
+
       color: #666;
-      border-bottom: 2px solid #e9eaec;
-      padding: 11px 9px;
+
+      font-size: 13px;
+
+      padding:
+        11px 9px;
+
+      border-bottom:
+        2px solid #e9eaec;
+
       white-space: nowrap;
+
     }
+
 
     td {
-      padding: 11px 9px;
-      border-bottom: 1px solid #eceef0;
+
+      padding:
+        11px 9px;
+
+      border-bottom:
+        1px solid #eceef0;
+
       vertical-align: top;
+
     }
+
 
     .money {
+
       text-align: right;
+
       white-space: nowrap;
+
     }
+
 
     .subtotal-row {
+
       background: #f6f7f9;
+
       font-weight: 700;
+
     }
+
 
     .total-row {
-      background: #eceff3;
+
+      background: #e9edf3;
+
       font-weight: 800;
+
     }
 
 
-    /* =========================
+    .all-person {
+
+      font-weight: 700;
+
+    }
+
+
+    .detail-category {
+
+      display: block;
+
+      font-size: 12px;
+
+      color: #777;
+
+      margin-top: 3px;
+
+    }
+
+
+    /* ========================
        狀態
-    ========================= */
+    ======================== */
 
     .hidden {
+
       display: none !important;
+
     }
+
 
     .loading {
+
       text-align: center;
+
       padding: 30px;
+
       color: #666;
+
     }
+
 
     .error {
+
       color: #b3261e;
+
       margin-top: 14px;
+
       font-size: 14px;
+
     }
+
 
     .no-data {
-      color: #777;
-      padding: 20px 0;
+
       text-align: center;
+
+      color: #777;
+
+      padding: 18px 0;
+
     }
 
 
-    /* =========================
-       手機版
-    ========================= */
+    /* ========================
+       手機
+    ======================== */
 
-    @media (max-width: 600px) {
+    @media(
+      max-width: 600px
+    ) {
 
       .page {
-        padding: 16px 10px 40px;
+
+        padding:
+          16px 10px 40px;
+
       }
+
 
       .card {
+
         padding: 18px;
+
       }
+
 
       h1 {
+
         font-size: 23px;
+
       }
+
 
       h2 {
+
         font-size: 20px;
+
       }
 
-      h3 {
-        font-size: 16px;
-      }
 
       .grand-total {
+
         font-size: 34px;
+
       }
+
 
       .person-btn {
-        flex: 1 1 calc(33.333% - 10px);
+
+        flex:
+          1 1
+          calc(33.333% - 10px);
+
         text-align: center;
-        padding: 10px 8px;
+
+        padding:
+          10px 7px;
+
       }
+
 
       .actions {
-        grid-template-columns: 1fr 1fr;
+
+        grid-template-columns:
+          1fr 1fr;
+
       }
+
 
       .summary-grid {
-        grid-template-columns: 1fr 1fr;
+
+        grid-template-columns:
+          1fr 1fr;
+
       }
 
 
-      /* 手機表格不左右滑 */
+      /* 不左右滑 */
 
       .table-wrap {
+
         overflow-x: visible;
+
       }
 
+
       table {
+
         width: 100%;
+
         min-width: 0;
+
         table-layout: fixed;
+
       }
+
 
       th,
       td {
-        padding: 9px 5px;
+
+        padding:
+          9px 5px;
+
         font-size: 13px;
+
         overflow-wrap: anywhere;
+
       }
 
 
-      /* =========================
-         費用分類表
-      ========================= */
+      /* 人員總覽 */
 
-      #claimSummaryTable td:first-child,
-      #travelSummaryTable td:first-child {
-        width: 65%;
-      }
+      #peopleSummaryTable
+      td:nth-child(1) {
 
-      #claimSummaryTable td:last-child,
-      #travelSummaryTable td:last-child {
-        width: 35%;
+        width: 22%;
+
       }
 
 
-      /* =========================
-         請款明細 4 欄
-      ========================= */
+      #peopleSummaryTable
+      td:nth-child(2),
 
-      #claimDetailTable td:nth-child(1) {
+      #peopleSummaryTable
+      td:nth-child(3),
+
+      #peopleSummaryTable
+      td:nth-child(4) {
+
+        width: 26%;
+
+      }
+
+
+      /* 請款 */
+
+      #claimDetailTable
+      td:nth-child(1) {
+
         width: 24%;
+
       }
 
-      #claimDetailTable td:nth-child(2) {
+
+      #claimDetailTable
+      td:nth-child(2) {
+
         width: 24%;
+
         white-space: nowrap;
+
       }
 
-      #claimDetailTable td:nth-child(3) {
+
+      #claimDetailTable
+      td:nth-child(3) {
+
         width: 32%;
+
       }
 
-      #claimDetailTable td:nth-child(4) {
+
+      #claimDetailTable
+      td:nth-child(4) {
+
         width: 20%;
+
         white-space: nowrap;
+
       }
 
 
-      /* =========================
-         交通費 3 欄
-      ========================= */
+      /* 全部模式請款 */
 
-      #transportTable td:nth-child(1) {
-        width: 36%;
+      #claimDetailTable.all-mode
+      td:nth-child(1) {
+
+        width: 23%;
+
       }
 
-      #transportTable td:nth-child(2) {
+
+      #claimDetailTable.all-mode
+      td:nth-child(2) {
+
+        width: 24%;
+
+      }
+
+
+      #claimDetailTable.all-mode
+      td:nth-child(3) {
+
+        width: 33%;
+
+      }
+
+
+      #claimDetailTable.all-mode
+      td:nth-child(4) {
+
+        width: 20%;
+
+      }
+
+
+      /* 交通 */
+
+      #transportTable
+      td:nth-child(1) {
+
         width: 36%;
+
+      }
+
+
+      #transportTable
+      td:nth-child(2) {
+
+        width: 36%;
+
         white-space: nowrap;
+
       }
 
-      #transportTable td:nth-child(3) {
+
+      #transportTable
+      td:nth-child(3) {
+
         width: 28%;
+
         white-space: nowrap;
+
       }
 
 
-      /* =========================
-         膳食費 3 欄
-      ========================= */
+      /* 膳食 */
 
-      #mealTable td:nth-child(1) {
+      #mealTable
+      td:nth-child(1) {
+
         width: 30%;
+
         white-space: nowrap;
+
       }
 
-      #mealTable td:nth-child(2) {
+
+      #mealTable
+      td:nth-child(2) {
+
         width: 43%;
+
       }
 
-      #mealTable td:nth-child(3) {
+
+      #mealTable
+      td:nth-child(3) {
+
         width: 27%;
+
         white-space: nowrap;
+
       }
 
     }
 
   </style>
+
 </head>
 
 
 <body>
+
 
 <div class="page">
 
@@ -402,16 +756,21 @@
   </h1>
 
 
-  <!-- =========================
-       選擇同仁
-  ========================== -->
+
+  <!-- =====================
+       操作區
+  ====================== -->
 
   <div class="card">
 
-    <h2>選擇同仁</h2>
+
+    <h2>
+      選擇同仁
+    </h2>
 
 
     <div class="people">
+
 
       <button
         class="person-btn"
@@ -420,12 +779,14 @@
         翊筑
       </button>
 
+
       <button
         class="person-btn"
         data-name="宜莉"
       >
         宜莉
       </button>
+
 
       <button
         class="person-btn"
@@ -434,12 +795,14 @@
         育文
       </button>
 
+
       <button
         class="person-btn"
         data-name="品瑄"
       >
         品瑄
       </button>
+
 
       <button
         class="person-btn"
@@ -448,6 +811,7 @@
         愉珊
       </button>
 
+
       <button
         class="person-btn"
         data-name="紫嘉"
@@ -455,14 +819,50 @@
         紫嘉
       </button>
 
+
+      <button
+        class="person-btn"
+        data-name="其他"
+      >
+        其他
+      </button>
+
+
     </div>
+
+
+
+    <div
+      id="otherBox"
+      class="other-box hidden"
+    >
+
+      <label
+        for="otherPerson"
+      >
+        其他同仁姓名
+      </label>
+
+
+      <input
+        id="otherPerson"
+        type="text"
+        placeholder="請輸入姓名"
+      >
+
+    </div>
+
 
 
     <div class="actions">
 
+
       <button
         id="reportBtn"
-        class="action-btn report-btn"
+        class="
+          action-btn
+          report-btn
+        "
         disabled
       >
         我要報帳
@@ -471,40 +871,58 @@
 
       <button
         id="queryBtn"
-        class="action-btn query-btn"
+        class="
+          action-btn
+          query-btn
+        "
         disabled
       >
         我要查詢
       </button>
 
+
     </div>
+
+
+
+    <button
+      id="allQueryBtn"
+      class="
+        action-btn
+        all-query-btn
+      "
+    >
+      查詢全部同仁
+    </button>
 
 
     <div
       id="topError"
       class="error"
-    ></div>
+    >
+    </div>
+
 
   </div>
 
 
 
-  <!-- =========================
-       Loading
-  ========================== -->
-
   <div
     id="loading"
-    class="card loading hidden"
+    class="
+      card
+      loading
+      hidden
+    "
   >
     資料讀取中……
   </div>
 
 
 
-  <!-- =========================
+  <!-- =====================
        查詢結果
-  ========================== -->
+  ====================== -->
 
   <div
     id="result"
@@ -516,10 +934,13 @@
 
     <div class="card">
 
+
       <div
         id="personTitle"
         class="person-title"
-      ></div>
+      >
+      </div>
+
 
       <div
         id="grandTotal"
@@ -530,6 +951,7 @@
 
 
       <div class="summary-grid">
+
 
         <div class="summary-box">
 
@@ -562,60 +984,6 @@
 
         </div>
 
-      </div>
-
-    </div>
-
-
-
-    <!-- =========================
-         費用分類
-    ========================== -->
-
-    <div class="card">
-
-      <h2>費用分類</h2>
-
-
-      <h3>請款</h3>
-
-      <div class="table-wrap">
-
-        <table>
-
-          <thead>
-            <tr>
-              <th>費用分類</th>
-              <th class="money">金額</th>
-            </tr>
-          </thead>
-
-          <tbody id="claimSummaryTable">
-          </tbody>
-
-        </table>
-
-      </div>
-
-
-
-      <h3>出差費</h3>
-
-      <div class="table-wrap">
-
-        <table>
-
-          <thead>
-            <tr>
-              <th>費用分類</th>
-              <th class="money">金額</th>
-            </tr>
-          </thead>
-
-          <tbody id="travelSummaryTable">
-          </tbody>
-
-        </table>
 
       </div>
 
@@ -623,28 +991,53 @@
 
 
 
-    <!-- =========================
-         請款明細
-    ========================== -->
+    <!-- 全部同仁總覽 -->
 
-    <div class="card">
+    <div
+      id="peopleSummaryCard"
+      class="
+        card
+        hidden
+      "
+    >
 
-      <h2>請款明細</h2>
+      <h2>
+        各同仁費用
+      </h2>
+
 
       <div class="table-wrap">
 
         <table>
 
           <thead>
+
             <tr>
-              <th>分類</th>
-              <th>日期</th>
-              <th>說明</th>
-              <th class="money">金額</th>
+
+              <th>
+                同仁
+              </th>
+
+              <th class="money">
+                請款
+              </th>
+
+              <th class="money">
+                出差費
+              </th>
+
+              <th class="money">
+                合計
+              </th>
+
             </tr>
+
           </thead>
 
-          <tbody id="claimDetailTable">
+
+          <tbody
+            id="peopleSummaryTable"
+          >
           </tbody>
 
         </table>
@@ -655,30 +1048,45 @@
 
 
 
-    <!-- =========================
-         出差費明細
-    ========================== -->
+    <!-- 費用分類 -->
 
     <div class="card">
 
-      <h2>出差費明細</h2>
+
+      <h2>
+        費用分類
+      </h2>
 
 
-      <h3>交通費</h3>
+      <h3>
+        請款
+      </h3>
+
 
       <div class="table-wrap">
 
         <table>
 
           <thead>
+
             <tr>
-              <th>交通費項目</th>
-              <th>日期</th>
-              <th class="money">金額</th>
+
+              <th>
+                費用分類
+              </th>
+
+              <th class="money">
+                金額
+              </th>
+
             </tr>
+
           </thead>
 
-          <tbody id="transportTable">
+
+          <tbody
+            id="claimSummaryTable"
+          >
           </tbody>
 
         </table>
@@ -687,26 +1095,191 @@
 
 
 
-      <h3>膳食費</h3>
+      <h3>
+        出差費
+      </h3>
+
 
       <div class="table-wrap">
 
         <table>
 
           <thead>
+
             <tr>
-              <th>日期</th>
-              <th>膳費內容</th>
-              <th class="money">金額</th>
+
+              <th>
+                費用分類
+              </th>
+
+              <th class="money">
+                金額
+              </th>
+
             </tr>
+
           </thead>
 
-          <tbody id="mealTable">
+
+          <tbody
+            id="travelSummaryTable"
+          >
           </tbody>
 
         </table>
 
       </div>
+
+
+    </div>
+
+
+
+    <!-- 請款明細 -->
+
+    <div class="card">
+
+
+      <h2>
+        請款明細
+      </h2>
+
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead
+            id="claimDetailHead"
+          >
+
+            <tr>
+
+              <th>
+                分類
+              </th>
+
+              <th>
+                日期
+              </th>
+
+              <th>
+                說明
+              </th>
+
+              <th class="money">
+                金額
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody
+            id="claimDetailTable"
+          >
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+    </div>
+
+
+
+    <!-- 出差費明細 -->
+
+    <div class="card">
+
+
+      <h2>
+        出差費明細
+      </h2>
+
+
+      <h3>
+        交通費
+      </h3>
+
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>
+                交通費項目
+              </th>
+
+              <th>
+                日期
+              </th>
+
+              <th class="money">
+                金額
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody
+            id="transportTable"
+          >
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+
+      <h3>
+        膳食費
+      </h3>
+
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>
+                日期
+              </th>
+
+              <th>
+                膳費內容
+              </th>
+
+              <th class="money">
+                金額
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody
+            id="mealTable"
+          >
+          </tbody>
+
+        </table>
+
+      </div>
+
 
     </div>
 
@@ -720,18 +1293,19 @@
 
 <script>
 
-/* ==================================================
-   Apps Script API
-================================================== */
+
+/* ===============================
+   Apps Script
+================================ */
 
 const API_URL =
   'https://script.google.com/macros/s/AKfycbwhraePH7uhX9-ictyBJopLwROQfUwGNjgFNu9CMcTgAnAXrM7cugxkiweiD8J9oRw-/exec';
 
 
 
-/* ==================================================
+/* ===============================
    Google Form
-================================================== */
+================================ */
 
 const FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLSeKTqrh-MGau75CZD2nvh5_JifVz2cSDYBMq-uaw1HQ5LWAnw/viewform';
@@ -744,52 +1318,104 @@ const PERSON_ENTRY_ID =
 
 let selectedPerson = '';
 
+let selectedIsOther = false;
 
 
-/* ==================================================
-   選擇同仁
-================================================== */
+
+/* ===============================
+   人員選擇
+================================ */
 
 document
-  .querySelectorAll('.person-btn')
+  .querySelectorAll(
+    '.person-btn'
+  )
   .forEach(button => {
+
 
     button.addEventListener(
       'click',
       function () {
 
+
         document
-          .querySelectorAll('.person-btn')
+          .querySelectorAll(
+            '.person-btn'
+          )
           .forEach(btn => {
 
-            btn.classList.remove(
-              'active'
-            );
+            btn.classList
+              .remove(
+                'active'
+              );
 
           });
 
 
-        this.classList.add(
-          'active'
-        );
+        this.classList
+          .add(
+            'active'
+          );
 
 
-        selectedPerson =
+        const name =
           this.dataset.name;
 
 
-        document
-          .getElementById('reportBtn')
-          .disabled = false;
+        selectedIsOther =
+          name === '其他';
+
+
+        const otherBox =
+          document
+            .getElementById(
+              'otherBox'
+            );
+
+
+        if (
+          selectedIsOther
+        ) {
+
+          otherBox
+            .classList
+            .remove(
+              'hidden'
+            );
+
+
+          selectedPerson =
+            document
+              .getElementById(
+                'otherPerson'
+              )
+              .value
+              .trim();
+
+        }
+
+        else {
+
+          otherBox
+            .classList
+            .add(
+              'hidden'
+            );
+
+
+          selectedPerson =
+            name;
+
+        }
+
+
+        updateButtons();
 
 
         document
-          .getElementById('queryBtn')
-          .disabled = false;
-
-
-        document
-          .getElementById('topError')
+          .getElementById(
+            'topError'
+          )
           .textContent = '';
 
       }
@@ -799,20 +1425,76 @@ document
 
 
 
-/* ==================================================
+document
+  .getElementById(
+    'otherPerson'
+  )
+  .addEventListener(
+    'input',
+    function () {
+
+      if (
+        selectedIsOther
+      ) {
+
+        selectedPerson =
+          this.value
+            .trim();
+
+
+        updateButtons();
+
+      }
+
+    }
+  );
+
+
+
+function updateButtons() {
+
+  const enabled =
+    !!selectedPerson;
+
+
+  document
+    .getElementById(
+      'reportBtn'
+    )
+    .disabled =
+      !enabled;
+
+
+  document
+    .getElementById(
+      'queryBtn'
+    )
+    .disabled =
+      !enabled;
+
+}
+
+
+
+/* ===============================
    我要報帳
-================================================== */
+================================ */
 
 document
-  .getElementById('reportBtn')
+  .getElementById(
+    'reportBtn'
+  )
   .addEventListener(
     'click',
     function () {
 
-      if (!selectedPerson) {
+
+      if (
+        !selectedPerson
+      ) {
 
         showTopError(
-          '請先選擇同仁'
+          '請先選擇或輸入同仁姓名'
         );
 
         return;
@@ -820,15 +1502,49 @@ document
       }
 
 
-      const prefilledUrl =
-        FORM_URL
-        + '?usp=pp_url'
-        + '&'
-        + PERSON_ENTRY_ID
-        + '='
-        + encodeURIComponent(
-            selectedPerson
-          );
+      let prefilledUrl;
+
+
+      /*
+       * 固定選項
+       */
+      if (
+        !selectedIsOther
+      ) {
+
+        prefilledUrl =
+          FORM_URL
+          + '?usp=pp_url'
+          + '&'
+          + PERSON_ENTRY_ID
+          + '='
+          + encodeURIComponent(
+              selectedPerson
+            );
+
+      }
+
+
+      /*
+       * Google Form
+       * 內建「其他」
+       */
+      else {
+
+        prefilledUrl =
+          FORM_URL
+          + '?usp=pp_url'
+          + '&'
+          + PERSON_ENTRY_ID
+          + '=__other_option__'
+          + '&'
+          + PERSON_ENTRY_ID
+          + '.other_option_response='
+          + encodeURIComponent(
+              selectedPerson
+            );
+
+      }
 
 
       window.open(
@@ -841,20 +1557,25 @@ document
 
 
 
-/* ==================================================
-   我要查詢
-================================================== */
+/* ===============================
+   查單人
+================================ */
 
 document
-  .getElementById('queryBtn')
+  .getElementById(
+    'queryBtn'
+  )
   .addEventListener(
     'click',
     function () {
 
-      if (!selectedPerson) {
+
+      if (
+        !selectedPerson
+      ) {
 
         showTopError(
-          '請先選擇同仁'
+          '請先選擇或輸入同仁姓名'
         );
 
         return;
@@ -871,11 +1592,33 @@ document
 
 
 
-/* ==================================================
-   呼叫 Apps Script
-================================================== */
+/* ===============================
+   查全部
+================================ */
+
+document
+  .getElementById(
+    'allQueryBtn'
+  )
+  .addEventListener(
+    'click',
+    function () {
+
+      queryExpense(
+        '全部'
+      );
+
+    }
+  );
+
+
+
+/* ===============================
+   JSONP
+================================ */
 
 function queryExpense(name) {
+
 
   showLoading();
 
@@ -902,12 +1645,16 @@ function queryExpense(name) {
         );
 
       },
+
       15000
     );
 
 
-  window[callbackName] =
+  window[
+    callbackName
+  ] =
     function (data) {
+
 
       clearTimeout(
         timeout
@@ -923,7 +1670,8 @@ function queryExpense(name) {
       ) {
 
         showError(
-          data && data.message
+          data &&
+          data.message
             ? data.message
             : '查詢失敗'
         );
@@ -933,17 +1681,23 @@ function queryExpense(name) {
       }
 
 
-      renderResult(data);
+      renderResult(
+        data
+      );
 
     };
 
 
   function cleanup() {
 
-    if (script.parentNode) {
+    if (
+      script.parentNode
+    ) {
 
       script.parentNode
-        .removeChild(script);
+        .removeChild(
+          script
+        );
 
     }
 
@@ -959,7 +1713,9 @@ function queryExpense(name) {
     API_URL
     + '?action=query'
     + '&name='
-    + encodeURIComponent(name)
+    + encodeURIComponent(
+        name
+      )
     + '&callback='
     + encodeURIComponent(
         callbackName
@@ -968,6 +1724,7 @@ function queryExpense(name) {
 
   script.onerror =
     function () {
+
 
       clearTimeout(
         timeout
@@ -985,37 +1742,60 @@ function queryExpense(name) {
 
 
   document.body
-    .appendChild(script);
+    .appendChild(
+      script
+    );
 
 }
 
 
 
-/* ==================================================
-   顯示查詢結果
-================================================== */
+/* ===============================
+   顯示結果
+================================ */
 
 function renderResult(data) {
 
-  document
-    .getElementById('loading')
-    .classList.add('hidden');
+
+  const isAll =
+    data.mode === 'all';
 
 
   document
-    .getElementById('result')
-    .classList.remove('hidden');
+    .getElementById(
+      'loading'
+    )
+    .classList
+    .add(
+      'hidden'
+    );
 
 
   document
-    .getElementById('personTitle')
+    .getElementById(
+      'result'
+    )
+    .classList
+    .remove(
+      'hidden'
+    );
+
+
+  document
+    .getElementById(
+      'personTitle'
+    )
     .textContent =
-      data.person
-      + '｜本次活動';
+      isAll
+        ? '全部同仁｜本次活動'
+        : data.person
+          + '｜本次活動';
 
 
   document
-    .getElementById('grandTotal')
+    .getElementById(
+      'grandTotal'
+    )
     .textContent =
       '$'
       + money(
@@ -1024,56 +1804,216 @@ function renderResult(data) {
 
 
   document
-    .getElementById('claimTotalTop')
+    .getElementById(
+      'claimTotalTop'
+    )
     .textContent =
       '$'
       + money(
-          data.summary.claimTotal
+          data.summary
+            .claimTotal
         );
 
 
   document
-    .getElementById('travelTotalTop')
+    .getElementById(
+      'travelTotalTop'
+    )
     .textContent =
       '$'
       + money(
-          data.summary.travelTotal
+          data.summary
+            .travelTotal
         );
 
 
-  renderClaimSummary(data);
+  renderPeopleSummary(
+    data
+  );
 
-  renderTravelSummary(data);
 
-  renderClaimDetail(data);
+  renderClaimSummary(
+    data
+  );
 
-  renderTransport(data);
 
-  renderMeal(data);
+  renderTravelSummary(
+    data
+  );
+
+
+  renderClaimDetail(
+    data
+  );
+
+
+  renderTransport(
+    data
+  );
+
+
+  renderMeal(
+    data
+  );
 
 
   document
-    .getElementById('result')
+    .getElementById(
+      'result'
+    )
     .scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
+
+      behavior:
+        'smooth',
+
+      block:
+        'start'
+
     });
 
 }
 
 
 
-/* ==================================================
-   費用分類：請款
-================================================== */
+/* ===============================
+   全部人員總覽
+================================ */
 
-function renderClaimSummary(data) {
+function renderPeopleSummary(
+  data
+) {
+
+
+  const card =
+    document
+      .getElementById(
+        'peopleSummaryCard'
+      );
+
+
+  if (
+    data.mode !== 'all'
+  ) {
+
+    card
+      .classList
+      .add(
+        'hidden'
+      );
+
+    return;
+
+  }
+
+
+  card
+    .classList
+    .remove(
+      'hidden'
+    );
+
+
+  let html = '';
+
+
+  data.people
+    .forEach(person => {
+
+
+      html += `
+
+        <tr>
+
+          <td class="all-person">
+            ${escapeHtml(
+              person.name
+            )}
+          </td>
+
+          <td class="money">
+            $${money(
+              person.claimTotal
+            )}
+          </td>
+
+          <td class="money">
+            $${money(
+              person.travelTotal
+            )}
+          </td>
+
+          <td class="money">
+            $${money(
+              person.total
+            )}
+          </td>
+
+        </tr>
+
+      `;
+
+    });
+
+
+  html += `
+
+    <tr class="total-row">
+
+      <td>
+        全部合計
+      </td>
+
+      <td class="money">
+        $${money(
+          data.summary
+            .claimTotal
+        )}
+      </td>
+
+      <td class="money">
+        $${money(
+          data.summary
+            .travelTotal
+        )}
+      </td>
+
+      <td class="money">
+        $${money(
+          data.grandTotal
+        )}
+      </td>
+
+    </tr>
+
+  `;
+
+
+  document
+    .getElementById(
+      'peopleSummaryTable'
+    )
+    .innerHTML =
+      html;
+
+}
+
+
+
+/* ===============================
+   請款分類
+================================ */
+
+function renderClaimSummary(
+  data
+) {
+
 
   let html = '';
 
 
   data.claim.groups
     .forEach(group => {
+
 
       html += `
 
@@ -1128,11 +2068,14 @@ function renderClaimSummary(data) {
 
 
 
-/* ==================================================
-   費用分類：出差費
-================================================== */
+/* ===============================
+   出差分類
+================================ */
 
-function renderTravelSummary(data) {
+function renderTravelSummary(
+  data
+) {
+
 
   document
     .getElementById(
@@ -1148,7 +2091,9 @@ function renderTravelSummary(data) {
 
         <td class="money">
           $${money(
-            data.travel.transport.total
+            data.travel
+              .transport
+              .total
           )}
         </td>
 
@@ -1163,7 +2108,9 @@ function renderTravelSummary(data) {
 
         <td class="money">
           $${money(
-            data.travel.meal.total
+            data.travel
+              .meal
+              .total
           )}
         </td>
 
@@ -1190,24 +2137,63 @@ function renderTravelSummary(data) {
 
 
 
-/* ==================================================
+/* ===============================
    請款明細
-================================================== */
+================================ */
 
-function renderClaimDetail(data) {
+function renderClaimDetail(
+  data
+) {
+
+
+  const isAll =
+    data.mode === 'all';
+
+
+  const tbody =
+    document
+      .getElementById(
+        'claimDetailTable'
+      );
+
+
+  if (isAll) {
+
+    tbody
+      .classList
+      .add(
+        'all-mode'
+      );
+
+  }
+
+  else {
+
+    tbody
+      .classList
+      .remove(
+        'all-mode'
+      );
+
+  }
+
 
   let html = '';
+
   let hasData = false;
 
 
   data.claim.groups
     .forEach(group => {
 
+
       if (
         !group.items ||
         group.items.length === 0
       ) {
+
         return;
+
       }
 
 
@@ -1217,14 +2203,33 @@ function renderClaimDetail(data) {
       group.items
         .forEach(item => {
 
+
+          const firstCell =
+            isAll
+              ? `
+                <strong>
+                  ${escapeHtml(
+                    item.person
+                  )}
+                </strong>
+
+                <span class="detail-category">
+                  ${escapeHtml(
+                    group.category
+                  )}
+                </span>
+              `
+              : escapeHtml(
+                  group.category
+                );
+
+
           html += `
 
             <tr>
 
               <td>
-                ${escapeHtml(
-                  group.category
-                )}
+                ${firstCell}
               </td>
 
               <td>
@@ -1279,7 +2284,10 @@ function renderClaimDetail(data) {
     });
 
 
-  if (!hasData) {
+
+  if (
+    !hasData
+  ) {
 
     html = `
 
@@ -1325,35 +2333,44 @@ function renderClaimDetail(data) {
   }
 
 
-  document
-    .getElementById(
-      'claimDetailTable'
-    )
-    .innerHTML =
-      html;
+  tbody.innerHTML =
+    html;
 
 }
 
 
 
-/* ==================================================
-   交通費明細
-================================================== */
+/* ===============================
+   交通費
+================================ */
 
-function renderTransport(data) {
+function renderTransport(
+  data
+) {
+
+
+  const isAll =
+    data.mode === 'all';
+
 
   let html = '';
+
   let hasData = false;
 
 
-  data.travel.transport.groups
+  data.travel
+    .transport
+    .groups
     .forEach(group => {
+
 
       if (
         !group.items ||
         group.items.length === 0
       ) {
+
         return;
+
       }
 
 
@@ -1363,14 +2380,33 @@ function renderTransport(data) {
       group.items
         .forEach(item => {
 
+
+          const firstCell =
+            isAll
+              ? `
+                <strong>
+                  ${escapeHtml(
+                    item.person
+                  )}
+                </strong>
+
+                <span class="detail-category">
+                  ${escapeHtml(
+                    group.category
+                  )}
+                </span>
+              `
+              : escapeHtml(
+                  group.category
+                );
+
+
           html += `
 
             <tr>
 
               <td>
-                ${escapeHtml(
-                  group.category
-                )}
+                ${firstCell}
               </td>
 
               <td>
@@ -1417,7 +2453,10 @@ function renderTransport(data) {
     });
 
 
-  if (!hasData) {
+
+  if (
+    !hasData
+  ) {
 
     html = `
 
@@ -1450,7 +2489,9 @@ function renderTransport(data) {
 
         <td class="money">
           $${money(
-            data.travel.transport.total
+            data.travel
+              .transport
+              .total
           )}
         </td>
 
@@ -1472,11 +2513,18 @@ function renderTransport(data) {
 
 
 
-/* ==================================================
-   膳食費明細
-================================================== */
+/* ===============================
+   膳食費
+================================ */
 
-function renderMeal(data) {
+function renderMeal(
+  data
+) {
+
+
+  const isAll =
+    data.mode === 'all';
+
 
   let html = '';
 
@@ -1505,22 +2553,43 @@ function renderMeal(data) {
 
   else {
 
+
     data.travel.meal.items
       .forEach(item => {
+
+
+        const dateCell =
+          isAll
+            ? `
+              <strong>
+                ${escapeHtml(
+                  item.person
+                )}
+              </strong>
+
+              <span class="detail-category">
+                ${escapeHtml(
+                  item.date
+                )}
+              </span>
+            `
+            : escapeHtml(
+                item.date
+              );
+
 
         html += `
 
           <tr>
 
             <td>
-              ${escapeHtml(
-                item.date
-              )}
+              ${dateCell}
             </td>
 
             <td>
               ${escapeHtml(
-                item.content || '-'
+                item.content ||
+                '-'
               )}
             </td>
 
@@ -1549,7 +2618,9 @@ function renderMeal(data) {
 
         <td class="money">
           $${money(
-            data.travel.meal.total
+            data.travel
+              .meal
+              .total
           )}
         </td>
 
@@ -1571,56 +2642,88 @@ function renderMeal(data) {
 
 
 
-/* ==================================================
+/* ===============================
    Loading
-================================================== */
+================================ */
 
 function showLoading() {
 
-  document
-    .getElementById('result')
-    .classList.add('hidden');
-
 
   document
-    .getElementById('loading')
-    .classList.remove('hidden');
+    .getElementById(
+      'result'
+    )
+    .classList
+    .add(
+      'hidden'
+    );
 
 
   document
-    .getElementById('topError')
+    .getElementById(
+      'loading'
+    )
+    .classList
+    .remove(
+      'hidden'
+    );
+
+
+  document
+    .getElementById(
+      'topError'
+    )
     .textContent = '';
 
 }
 
 
 
-/* ==================================================
+/* ===============================
    Error
-================================================== */
+================================ */
 
-function showError(message) {
-
-  document
-    .getElementById('loading')
-    .classList.add('hidden');
+function showError(
+  message
+) {
 
 
   document
-    .getElementById('result')
-    .classList.add('hidden');
+    .getElementById(
+      'loading'
+    )
+    .classList
+    .add(
+      'hidden'
+    );
 
 
-  showTopError(message);
+  document
+    .getElementById(
+      'result'
+    )
+    .classList
+    .add(
+      'hidden'
+    );
+
+
+  showTopError(
+    message
+  );
 
 }
 
 
 
-function showTopError(message) {
+function showTopError(
+  message
+) {
 
   document
-    .getElementById('topError')
+    .getElementById(
+      'topError'
+    )
     .textContent =
       message;
 
@@ -1628,11 +2731,13 @@ function showTopError(message) {
 
 
 
-/* ==================================================
+/* ===============================
    金額格式
-================================================== */
+================================ */
 
-function money(value) {
+function money(
+  value
+) {
 
   return Number(
     value || 0
@@ -1644,11 +2749,13 @@ function money(value) {
 
 
 
-/* ==================================================
-   HTML 安全處理
-================================================== */
+/* ===============================
+   HTML 安全
+================================ */
 
-function escapeHtml(value) {
+function escapeHtml(
+  value
+) {
 
   return String(
     value || ''
@@ -1681,7 +2788,10 @@ function escapeHtml(value) {
 
 }
 
+
 </script>
 
+
 </body>
+
 </html>
